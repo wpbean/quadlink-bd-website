@@ -1,0 +1,31 @@
+{
+  "name": "quadlinkbd-website",
+  "version": "1.0.0",
+  "description": "Quadlink BD ISP website — Node.js/Express server with Resend-powered contact form",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wpbean/quadlink-bd-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/wpbean/quadlink-bd-website/issues"
+  },
+  "homepage": "https://github.com/wpbean/quadlink-bd-website#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "resend": "^6.25.0"
+  }
+}

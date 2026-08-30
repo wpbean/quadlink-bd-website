@@ -30,20 +30,15 @@ const appConfig = {
       description: "বাসা ও ব্যক্তিগত ব্যবহারের জন্য দ্রুতগতির ও নির্ভরযোগ্য নিরবচ্ছিন্ন অপটিক্যাল ফাইবার ইন্টারনেট।"
     },
     {
-      icon: "🏢",
-      title: "কর্পোরেট ইন্টারনেট",
-      description: "অফিস ও শিল্পপ্রতিষ্ঠানের জন্য উচ্চগতির ডেডিকেটেড ব্যান্ডউইথ ও বিশেষ এসএলএ সুবিধা।"
-    },
-    {
       icon: "⚡",
       title: "ফাইবার অপটিক কানেকশন",
       description: "সর্বাধুনিক FTTH প্রযুক্তির মাধ্যমে প্রতিটি সংযোগে নিশ্চিত স্থিতিশীলতা ও সর্বনিম্ন পিং।"
     },
     {
-      icon: "🔒",
-      title: "ডেডিকেটেড ও আইপি সেবা",
-      description: "জরুরি ব্যবসায়ের জন্য রিয়েল আইপি, কাস্টম ব্যান্ডউইথ কনফিগারেশন এবং সার্বক্ষণিক পর্যবেক্ষণ।"
-    }
+      icon: "🏢",
+      title: "কর্পোরেট ইন্টারনেট",
+      description: "অফিস ও শিল্পপ্রতিষ্ঠানের জন্য উচ্চগতির ডেডিকেটেড ব্যান্ডউইথ ও বিশেষ এসএলএ সুবিধা।"
+    },
   ],
 
   packages: [
@@ -140,9 +135,9 @@ const appConfig = {
 
   coverage: [
     {
-      city: "সাভার জোন",
+      city: "ধামরাই জোন",
       status: "সক্রিয় কভারেজ",
-      subareas: ["নবীনগর", "আশুলিয়া", "জিরাবো", "পল্লীবিদ্যুৎ", "বাইপাইল", "ধামরাই"]
+      subareas: ["ইসলামপুর", "পঞ্চাশ", "হাসপাতাল রোড", "থানা রোড", "ধামরাই বাজার", "পাঠানতলা", "কুমড়াইল", "কলেজ রোড", "উপজেলা"]
     },
     {
       city: "ঢাকা পশ্চিম জোন",
@@ -286,31 +281,65 @@ function selectPackageForForm(pkgLabel) {
 }
 
 /* ==========================================================================
-   3. Contact Form Handler (Static / Demo Mode)
+   3. Contact Form Handler (submits to /api/contact — sent via Resend)
    ========================================================================== */
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
   event.preventDefault();
+
+  const form = document.getElementById("contactForm");
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const feedback = document.getElementById("formFeedback");
 
   const name = document.getElementById("fullName").value.trim();
   const phone = document.getElementById("phoneNumber").value.trim();
   const area = document.getElementById("customerArea").value.trim();
   const pkg = document.getElementById("selectedPackage").value;
-  const feedback = document.getElementById("formFeedback");
+  const message = document.getElementById("customerMessage").value.trim();
+
+  function showFeedback(success, text) {
+    feedback.className = success ? "form-feedback success" : "form-feedback";
+    if (!success) feedback.style.color = "var(--color-error)";
+    feedback.textContent = text;
+    feedback.style.display = "block";
+  }
 
   if (!name || !phone || !area) {
-    feedback.className = "form-feedback";
-    feedback.style.color = "var(--color-error)";
-    feedback.textContent = "অনুগ্রহ করে সব আবশ্যক তথ্য সঠিকভাবে পূরণ করুন।";
-    feedback.style.display = "block";
+    showFeedback(false, "অনুগ্রহ করে সব আবশ্যক তথ্য সঠিকভাবে পূরণ করুন।");
     return false;
   }
 
-  // Demonstration Feedback (Ready for Formspree / Web3Forms endpoint integration)
-  feedback.className = "form-feedback success";
-  feedback.textContent = `ধন্যবাদ ${name}! আপনার সংযোগের আবেদনটি গৃহীত হয়েছে। আমাদের টিম খুব দ্রুত ${phone} নম্বরে যোগাযোগ করবে।`;
-  feedback.style.display = "block";
+  submitBtn.disabled = true;
+  submitBtn.dataset.originalText = submitBtn.dataset.originalText || submitBtn.textContent;
+  submitBtn.textContent = "পাঠানো হচ্ছে...";
 
-  document.getElementById("contactForm").reset();
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: name,
+        phoneNumber: phone,
+        customerArea: area,
+        selectedPackage: pkg,
+        customerMessage: message
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.ok && data.ok) {
+      showFeedback(true, `ধন্যবাদ ${name}! আপনার সংযোগের আবেদনটি গৃহীত হয়েছে। আমাদের টিম খুব দ্রুত ${phone} নম্বরে যোগাযোগ করবে।`);
+      form.reset();
+    } else {
+      showFeedback(false, data.error || "দুঃখিত, বার্তা পাঠাতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।");
+    }
+  } catch (err) {
+    showFeedback(false, "নেটওয়ার্ক সমস্যার কারণে বার্তা পাঠানো যায়নি। আবার চেষ্টা করুন।");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = submitBtn.dataset.originalText;
+  }
+
   return false;
 }
 
@@ -343,6 +372,46 @@ function setupUIInteractions() {
       link.addEventListener("click", () => {
         mainNav.classList.remove("active");
         mobileToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  // Scroll-Spy: sync active nav link with the section in view
+  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+  const sections = navLinks
+    .map(link => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  function setActiveLink(id) {
+    navLinks.forEach(link => {
+      link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+    });
+  }
+
+  if (sections.length && "IntersectionObserver" in window) {
+    let activeId = sections[0].id;
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activeId = entry.target.id;
+        }
+      });
+      setActiveLink(activeId);
+    }, {
+      // Counts a section as "current" once it crosses the header/mid-viewport band
+      rootMargin: "-45% 0px -50% 0px",
+      threshold: 0
+    });
+
+    sections.forEach(section => spyObserver.observe(section));
+
+    // Instant feedback on click, ahead of the smooth-scroll finishing
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        const targetId = link.getAttribute("href").slice(1);
+        activeId = targetId;
+        setActiveLink(targetId);
       });
     });
   }

@@ -1,64 +1,104 @@
-# Quadlink BD — Professional ISP Static Website
+# Quadlink BD — Node.js / Express ISP Website
 
-Production-ready, highly responsive, and accessible static website for **Quadlink BD** (Internet Service Provider), optimized for **GitHub Pages** hosting with custom domain configuration (`quadlinkbd.com`).
+Production website for **Quadlink BD** (Internet Service Provider), served by a small Node.js/Express backend. The frontend is the original static HTML/CSS/vanilla-JS site (now under `public/`); the backend adds a working contact form (via [Resend](https://resend.com)) and a foundation for future features like a billing system.
 
 ---
 
 ## 🚀 Key Features
 
-* **High Performance & Lightweight:** Built using modern vanilla semantic HTML5, modular CSS3 custom properties, and plain JavaScript. Zero heavy framework overhead.
-* **Bangla Typography:** Styled with Google Fonts (`Hind Siliguri`) and balanced fallback stacks for clean Bengali rendering.
-* **Centralized Configuration:** Edit pricing, packages, speeds, phone numbers, email, and coverage zones directly inside `js/main.js` in one unified `appConfig` object.
-* **Accessible & Mobile Optimized:** Fluid layouts across 320px to 4K displays with ARIA attributes and `prefers-reduced-motion` compliance.
-* **Turnkey GitHub Pages Deployment:** Includes preconfigured `CNAME`, `robots.txt`, and `sitemap.xml`.
+* **Node.js + Express backend:** serves the static site and exposes a small JSON API (`/api/contact` today; more routes — e.g. billing — can be added under `src/routes/`).
+* **Working contact form:** submissions are validated server-side and emailed via the Resend API.
+* **Same frontend as before:** Bangla UI (`Hind Siliguri` font), centralized content config in `public/js/main.js` (`appConfig`), zero frontend build step.
+* **Rate-limited API:** the contact endpoint is throttled to reduce spam/abuse.
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-quadlink-bd/
-├── index.html        # Main semantic markup with OpenGraph/SEO meta
-├── CNAME             # Custom domain configuration for GitHub Pages
-├── robots.txt        # Search crawler permissions
-├── sitemap.xml       # Search engine index mapping
-├── favicon.svg       # Lightweight SVG brand favicon
-├── README.md         # Deployment and usage instructions
-├── ai.md             # Guide for future AI coding assistants
-├── css/
-│   └── style.css     # CSS Variables, grid systems, and micro-interactions
-└── js/
-    └── main.js        # Centralized business config and DOM hydration
+quadlinkbd.com/
+├── server.js              # Express app entry point
+├── ecosystem.config.js    # pm2 process config for VPS deployment
+├── package.json
+├── .env.example            # Copy to .env and fill in real values (never commit .env)
+├── src/
+│   └── routes/
+│       └── contact.js      # POST /api/contact — validates input, sends email via Resend
+├── public/                 # Everything served as static files
+│   ├── index.html          # Main markup with OpenGraph/SEO meta
+│   ├── favicon.svg
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── main.js         # appConfig (business content) + rendering + contact form fetch()
+├── README.md
+└── claude.md                # Guide for AI coding assistants
 ```
 
 ---
 
-## ⚙️ Editing Site Content
+## ⚙️ Local Development
 
-All business-specific content — company name, phone, email, address, statistics, services, packages, benefits, and coverage areas — lives in a single place: the `appConfig` object at the top of `js/main.js`. Update the values there and the page re-renders those sections automatically on load; no HTML editing required for routine content changes.
+```bash
+npm install
+cp .env.example .env   # then fill in RESEND_API_KEY etc.
+npm run dev             # auto-restarts on file changes (node --watch)
+# or: npm start
+```
 
-To change branding colors, spacing, or typography, edit the CSS custom properties (`:root` block) at the top of `css/style.css`.
-
----
-
-## 🚢 Deploying to GitHub Pages
-
-1. Create a new GitHub repository and push the contents of this folder to the `main` branch (or a `gh-pages` branch, per your preference).
-2. In the repository settings, under **Pages**, set the source to the branch containing these files (root directory).
-3. Confirm the `CNAME` file contains your custom domain (`quadlinkbd.com`) — GitHub Pages reads this file automatically to configure the custom domain.
-4. At your domain registrar/DNS provider, point the domain to GitHub Pages:
-   - For an apex domain (`quadlinkbd.com`), add `A` records pointing to GitHub's Pages IP addresses.
-   - For a `www` subdomain, add a `CNAME` record pointing to `<username>.github.io`.
-5. Wait for DNS propagation and enable **Enforce HTTPS** in the Pages settings once the certificate is issued.
+The site runs at `http://localhost:3000` (or `$PORT`).
 
 ---
 
-## 📨 Contact Form Notes
+## ✏️ Editing Site Content
 
-The contact form (`#contactForm`) currently runs in **static demo mode** — it validates required fields and shows a success message client-side but does not send data anywhere, since GitHub Pages cannot run server-side code. To make it functional, connect it to a form backend such as [Formspree](https://formspree.io) or [Web3Forms](https://web3forms.com) by adding their endpoint/action to the form and adjusting `handleFormSubmit()` in `js/main.js` to submit via `fetch()`.
+Business content — company name, phone, email, address, statistics, services, packages, benefits, coverage areas — still lives in one place: the `appConfig` object at the top of `public/js/main.js`. Update values there; the page re-renders those sections on load. No HTML editing needed for routine content changes.
+
+Branding colors, spacing, and typography are CSS custom properties in the `:root` block at the top of `public/css/style.css`.
+
+---
+
+## 📨 Contact Form / Resend Setup
+
+The form at `#contactForm` POSTs to `/api/contact`, which sends an email via the [Resend](https://resend.com) API using the official `resend` npm package.
+
+1. Create a Resend account and an API key.
+2. Verify `quadlinkbd.com` (or a subdomain) as a sending domain in Resend — **required** before you can send from an address like `noreply@quadlinkbd.com`. (This is done — the domain is verified, so submissions deliver straight to `info@quadlinkbd.com`.)
+3. Set these in `.env` (see `.env.example`):
+   ```
+   RESEND_API_KEY=re_...
+   CONTACT_FROM_EMAIL="Quadlink BD Website <noreply@quadlinkbd.com>"
+   CONTACT_TO_EMAIL=info@quadlinkbd.com
+   ```
+4. Restart the server. Submissions will arrive as plain-text emails at `CONTACT_TO_EMAIL`.
+
+If `RESEND_API_KEY` is missing, the API responds with a friendly Bangla error and logs a warning instead of crashing — the rest of the site keeps working.
+
+---
+
+## 🚢 Deploying to a VPS
+
+1. Provision a VPS (Ubuntu, etc.), install Node.js (>=18) and [pm2](https://pm2.keymetrics.io/) (`npm install -g pm2`).
+2. Clone this repo onto the server, run `npm install --omit=dev`, and create `.env` with real production values (never commit it).
+3. Start the app under pm2:
+   ```bash
+   pm2 start ecosystem.config.js
+   pm2 save
+   pm2 startup   # follow the printed instructions to launch pm2 on boot
+   ```
+4. Put a reverse proxy (Nginx or Caddy) in front of the app to terminate TLS and forward to `http://127.0.0.1:3000` (or your configured `$PORT`), and obtain a certificate (e.g. via Let's Encrypt / certbot).
+5. At your DNS provider, point `quadlinkbd.com` (and `www`) directly at the VPS's IP address (A/AAAA records) — GitHub Pages' `CNAME` file has been removed since the site no longer lives there.
+
+---
+
+## 💳 Future: Billing System
+
+The backend is structured so new functionality is added as additional routes under `src/routes/` (e.g. `src/routes/billing.js`, mounted in `server.js` the same way `contact.js` is) rather than bolted onto the frontend. When billing work starts, expect to add a database/ORM, authentication, and likely a payment gateway integration — none of that exists yet.
 
 ---
 
 ## 🤖 For AI Coding Assistants
 
-See [`ai.md`](./ai.md) for a concise map of this codebase intended to help AI tools make safe, correct edits.
+See [`claude.md`](./claude.md) for a concise map of this codebase intended to help AI tools make safe, correct edits.
