@@ -365,7 +365,7 @@ ul {
   border-radius: var(--radius-full);
   font-size: 0.85rem;
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1;
   margin-bottom: var(--space-md);
   box-shadow: var(--shadow-sm);
 }
@@ -376,6 +376,7 @@ ul {
   border-radius: 50%;
   background-color: var(--color-success);
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  transform: translateY(-0.75px);
 }
 
 .hero-title {
