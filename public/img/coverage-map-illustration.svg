@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 340" width="1160" height="340" role="img" aria-labelledby="coverageMapTitle">
+  <title id="coverageMapTitle">সাভার-ধামরাই কভারেজ এলাকার ফ্ল্যাট মানচিত্র ইলাস্ট্রেশন</title>
+
+  <defs>
+    <linearGradient id="mapSkyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3FBF6"/>
+      <stop offset="100%" stop-color="#EAF6EE"/>
+    </linearGradient>
+    <linearGradient id="mapRiverGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CFEAF3"/>
+      <stop offset="100%" stop-color="#AEDDEB"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .m-flow-dash {
+      stroke-dasharray: 1 12;
+      animation: mDashFlow 1.6s linear infinite;
+    }
+    .m-packet {
+      animation: mMovePacket 3.4s linear infinite;
+    }
+    .m-pulse {
+      animation: mPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes mDashFlow {
+      to { stroke-dashoffset: -26; }
+    }
+    @keyframes mMovePacket {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    @keyframes mPulse {
+      0%, 100% { transform: scale(1); opacity: 0.55; }
+      50% { transform: scale(1.6); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .m-flow-dash { animation: none; }
+      .m-packet { animation: none; opacity: 0; }
+      .m-pulse { animation: none; opacity: 0.25; }
+    }
+  </style>
+
+  <rect width="1160" height="340" rx="24" fill="url(#mapSkyGrad)"/>
+
+  <!-- scattered locator dots (matches site's flat-illustration texture) -->
+  <g opacity="0.5" fill="#2E7045">
+    <circle cx="40" cy="46" r="3"/>
+    <circle cx="76" cy="24" r="3"/>
+    <circle cx="1100" cy="40" r="3"/>
+    <circle cx="1124" cy="70" r="3"/>
+    <circle cx="1080" cy="300" r="3"/>
+    <circle cx="36" cy="290" r="3"/>
+  </g>
+
+  <!-- soft field / land patches -->
+  <g fill="#2E7045" opacity="0.06">
+    <ellipse cx="150" cy="90" rx="120" ry="46"/>
+    <ellipse cx="560" cy="70" rx="150" ry="40"/>
+    <ellipse cx="980" cy="110" rx="140" ry="50"/>
+    <ellipse cx="300" cy="280" rx="160" ry="44"/>
+    <ellipse cx="820" cy="280" rx="170" ry="46"/>
+  </g>
+
+  <!-- Bangshi river ribbon flowing through the Savar-Dhamrai corridor -->
+  <path d="M-20 60 C 200 40, 260 130, 480 120 C 700 110, 760 210, 980 230 C 1080 240, 1120 220, 1180 235"
+        fill="none" stroke="url(#mapRiverGrad)" stroke-width="26" stroke-linecap="round" opacity="0.9"/>
+  <path d="M-20 60 C 200 40, 260 130, 480 120 C 700 110, 760 210, 980 230 C 1080 240, 1120 220, 1180 235"
+        fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="1 10" opacity="0.5"/>
+
+  <!-- main road connecting the three zones -->
+  <path id="mapRoad" d="M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205"
+        fill="none" stroke="#D6DEE6" stroke-width="16" stroke-linecap="round"/>
+  <path d="M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205"
+        fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="10 10" opacity="0.9"/>
+
+  <!-- animated fiber line tracing the road -->
+  <path d="M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205"
+        fill="none" stroke="#2E7045" stroke-width="2.5" opacity="0.35"/>
+  <path class="m-flow-dash" d="M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205"
+        fill="none" stroke="#4CAF6B" stroke-width="2.5"/>
+  <circle class="m-packet" r="4" fill="#F59E0B" offset-path="path('M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205')"/>
+  <circle class="m-packet" r="4" fill="#F59E0B" style="animation-delay:1.7s" offset-path="path('M110 232 C 260 190, 340 150, 470 158 C 630 168, 700 210, 860 200 C 950 195, 1000 210, 1050 205')"/>
+
+  <!-- tiny flat settlement blocks -->
+  <g fill="#FFFFFF" stroke="#2E7045" stroke-width="1.5">
+    <g transform="translate(150,196)">
+      <rect x="-26" y="0" width="18" height="16" rx="2"/>
+      <path d="M-29 0 L-17 -10 L-5 0 Z"/>
+      <rect x="0" y="4" width="16" height="12" rx="2"/>
+      <path d="M-3 4 L8 -4 L19 4 Z"/>
+    </g>
+    <g transform="translate(560,120)">
+      <rect x="-26" y="0" width="18" height="16" rx="2"/>
+      <path d="M-29 0 L-17 -10 L-5 0 Z"/>
+      <rect x="0" y="4" width="16" height="12" rx="2"/>
+      <path d="M-3 4 L8 -4 L19 4 Z"/>
+    </g>
+    <g transform="translate(950,170)">
+      <rect x="-26" y="0" width="18" height="16" rx="2"/>
+      <path d="M-29 0 L-17 -10 L-5 0 Z"/>
+      <rect x="0" y="4" width="16" height="12" rx="2"/>
+      <path d="M-3 4 L8 -4 L19 4 Z"/>
+    </g>
+  </g>
+
+  <!-- flat tree clusters -->
+  <g>
+    <g transform="translate(60,150)">
+      <path d="M0 14 C -10 12, -12 -2, -1 -8 C 3 2, 2 8, 0 14 Z" fill="#4CAF6B"/>
+      <path d="M0 14 C 8 10, 10 -4, 1 -10 C -3 0, -2 8, 0 14 Z" fill="#2E7045"/>
+    </g>
+    <g transform="translate(720,130)">
+      <path d="M0 14 C -10 12, -12 -2, -1 -8 C 3 2, 2 8, 0 14 Z" fill="#4CAF6B"/>
+      <path d="M0 14 C 8 10, 10 -4, 1 -10 C -3 0, -2 8, 0 14 Z" fill="#2E7045"/>
+    </g>
+    <g transform="translate(1080,150)">
+      <path d="M0 14 C -10 12, -12 -2, -1 -8 C 3 2, 2 8, 0 14 Z" fill="#4CAF6B"/>
+      <path d="M0 14 C 8 10, 10 -4, 1 -10 C -3 0, -2 8, 0 14 Z" fill="#2E7045"/>
+    </g>
+  </g>
+
+  <!-- Zone pin: Dhamrai (active coverage) -->
+  <g transform="translate(150,150)">
+    <circle class="m-pulse" cx="0" cy="0" r="14" fill="#10B981"/>
+    <path d="M0 34 C -16 34, -22 20, -22 8 A 22 22 0 1 1 22 8 C 22 20, 16 34, 0 34 Z" fill="#10B981"/>
+    <circle cx="0" cy="6" r="9" fill="#FFFFFF"/>
+    <text x="0" y="-46" text-anchor="middle" font-size="17" font-weight="700" fill="#12291B" font-family="'Hind Siliguri','Inter',sans-serif">ধামরাই</text>
+  </g>
+
+  <!-- Zone pin: Nabinagar (expanding) -->
+  <g transform="translate(560,96)">
+    <circle class="m-pulse" cx="0" cy="0" r="14" fill="#F59E0B" style="animation-delay:0.5s"/>
+    <path d="M0 34 C -16 34, -22 20, -22 8 A 22 22 0 1 1 22 8 C 22 20, 16 34, 0 34 Z" fill="#F59E0B"/>
+    <circle cx="0" cy="6" r="9" fill="#FFFFFF"/>
+    <text x="0" y="-46" text-anchor="middle" font-size="17" font-weight="700" fill="#12291B" font-family="'Hind Siliguri','Inter',sans-serif">নবীনগর</text>
+  </g>
+
+  <!-- Zone pin: Savar (expanding) -->
+  <g transform="translate(950,146)">
+    <circle class="m-pulse" cx="0" cy="0" r="14" fill="#F59E0B" style="animation-delay:1s"/>
+    <path d="M0 34 C -16 34, -22 20, -22 8 A 22 22 0 1 1 22 8 C 22 20, 16 34, 0 34 Z" fill="#F59E0B"/>
+    <circle cx="0" cy="6" r="9" fill="#FFFFFF"/>
+    <text x="0" y="-46" text-anchor="middle" font-size="17" font-weight="700" fill="#12291B" font-family="'Hind Siliguri','Inter',sans-serif">সাভার</text>
+  </g>
+
+  <!-- compass mark -->
+  <g transform="translate(1094,286)" fill="none" stroke="#2E7045" stroke-width="1.5" opacity="0.6">
+    <circle cx="0" cy="0" r="18"/>
+    <path d="M0 -12 L4 0 L0 12 L-4 0 Z" fill="#2E7045" stroke="none"/>
+    <text x="0" y="-22" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7045" stroke="none" font-family="'Hind Siliguri','Inter',sans-serif">N</text>
+  </g>
+</svg>

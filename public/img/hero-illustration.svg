@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" role="img" aria-labelledby="heroIllustrationTitle">
+  <title id="heroIllustrationTitle">ফাইবার অপটিক নেটওয়ার্কের মাধ্যমে সংযুক্ত ঘর ও ভবন</title>
+
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3FBF6"/>
+      <stop offset="100%" stop-color="#EAF6EE"/>
+    </linearGradient>
+    <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E7045"/>
+      <stop offset="100%" stop-color="#12291B"/>
+    </linearGradient>
+    <linearGradient id="houseGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F5F9"/>
+    </linearGradient>
+    <linearGradient id="buildingGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E7045"/>
+      <stop offset="100%" stop-color="#235636"/>
+    </linearGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4CAF6B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#4CAF6B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    .flow-dash {
+      stroke-dasharray: 1 11;
+      animation: dashFlow 1.6s linear infinite;
+    }
+    .pulse-arc-1 {
+      animation: pulseArc1 2s ease-in-out infinite;
+    }
+    .pulse-arc-2 {
+      animation: pulseArc2 2s ease-in-out infinite;
+      animation-delay: 0.4s;
+    }
+    .packet {
+      offset-rotate: 0deg;
+      animation: movePacket 2.4s linear infinite;
+    }
+    .packet-b {
+      animation-delay: 0.8s;
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -24; }
+    }
+    @keyframes pulseArc1 {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 0.2; }
+    }
+    @keyframes pulseArc2 {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.1; }
+    }
+    @keyframes movePacket {
+      0% { offset-distance: 0%; opacity: 0; }
+      12% { opacity: 1; }
+      88% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flow-dash, .pulse-arc-1, .pulse-arc-2, .packet {
+        animation: none;
+      }
+      .pulse-arc-1 { opacity: 0.6; }
+      .pulse-arc-2 { opacity: 0.3; }
+      .packet { opacity: 0; }
+    }
+  </style>
+
+  <rect width="600" height="450" rx="24" fill="url(#skyGrad)"/>
+
+  <circle cx="300" cy="210" r="190" fill="url(#glowGrad)"/>
+  <circle cx="90" cy="90" r="60" fill="#2E7045" opacity="0.06"/>
+  <circle cx="520" cy="340" r="80" fill="#2E7045" opacity="0.07"/>
+
+  <g opacity="0.5" fill="#2E7045">
+    <circle cx="60" cy="160" r="3"/>
+    <circle cx="95" cy="130" r="3"/>
+    <circle cx="520" cy="120" r="3"/>
+    <circle cx="555" cy="150" r="3"/>
+    <circle cx="60" cy="360" r="3"/>
+    <circle cx="540" cy="380" r="3"/>
+  </g>
+
+  <path d="M0 380 Q150 350 300 372 T600 368 V450 H0 Z" fill="#2E7045" opacity="0.08"/>
+  <path d="M0 400 Q150 385 300 398 T600 392 V450 H0 Z" fill="#2E7045" opacity="0.12"/>
+
+  <g fill="none" stroke-linecap="round">
+    <path d="M300 130 C 220 190, 190 260, 160 320" stroke="#4CAF6B" stroke-width="2.5" opacity="0.55"/>
+    <path d="M300 130 C 380 190, 410 260, 440 320" stroke="#4CAF6B" stroke-width="2.5" opacity="0.55"/>
+    <path d="M300 130 C 300 200, 300 260, 300 335" stroke="#4CAF6B" stroke-width="2.5" opacity="0.55"/>
+
+    <path class="flow-dash" id="fiberLeft" d="M300 130 C 220 190, 190 260, 160 320" stroke="#2E7045" stroke-width="2.5"/>
+    <path class="flow-dash" id="fiberRight" d="M300 130 C 380 190, 410 260, 440 320" stroke="#2E7045" stroke-width="2.5"/>
+  </g>
+
+  <circle class="packet packet-a" r="4" fill="#F59E0B" offset-path="path('M300 130 C 220 190, 190 260, 160 320')"/>
+  <circle class="packet packet-b" r="4" fill="#F59E0B" offset-path="path('M300 130 C 380 190, 410 260, 440 320')"/>
+
+  <g transform="translate(300,150)">
+    <rect x="-6" y="-30" width="12" height="130" rx="6" fill="url(#towerGrad)"/>
+    <rect x="-46" y="-42" width="92" height="18" rx="9" fill="url(#towerGrad)"/>
+    <circle cx="-46" cy="-33" r="7" fill="#4CAF6B"/>
+    <circle cx="0" cy="-33" r="7" fill="#4CAF6B"/>
+    <circle cx="46" cy="-33" r="7" fill="#4CAF6B"/>
+    <circle cx="0" cy="-58" r="9" fill="#4CAF6B"/>
+    <rect x="-3" y="-70" width="6" height="14" rx="3" fill="#12291B"/>
+
+    <g stroke="#4CAF6B" stroke-width="3" fill="none" stroke-linecap="round">
+      <path class="pulse-arc-1" d="M-30 -72 A 42 42 0 0 1 30 -72"/>
+      <path class="pulse-arc-2" d="M-44 -84 A 62 62 0 0 1 44 -84"/>
+    </g>
+  </g>
+
+  <g transform="translate(150,320)">
+    <rect x="-58" y="-4" width="116" height="66" rx="8" fill="url(#houseGrad)" stroke="#E2E8F0" stroke-width="1.5"/>
+    <path d="M-68 -4 L0 -52 L68 -4 Z" fill="#2E7045"/>
+    <rect x="-14" y="24" width="28" height="38" rx="3" fill="#2E7045"/>
+    <rect x="-42" y="14" width="18" height="18" rx="2" fill="#EAF6EE" stroke="#2E7045" stroke-width="1.5"/>
+    <rect x="24" y="14" width="18" height="18" rx="2" fill="#EAF6EE" stroke="#2E7045" stroke-width="1.5"/>
+  </g>
+
+  <g transform="translate(450,315)">
+    <rect x="-40" y="-70" width="80" height="132" rx="8" fill="url(#buildingGrad)"/>
+    <g fill="#EAF6EE" opacity="0.9">
+      <rect x="-28" y="-55" width="14" height="14" rx="2"/>
+      <rect x="-7" y="-55" width="14" height="14" rx="2"/>
+      <rect x="14" y="-55" width="14" height="14" rx="2"/>
+      <rect x="-28" y="-30" width="14" height="14" rx="2"/>
+      <rect x="-7" y="-30" width="14" height="14" rx="2"/>
+      <rect x="14" y="-30" width="14" height="14" rx="2"/>
+      <rect x="-28" y="-5" width="14" height="14" rx="2"/>
+      <rect x="14" y="-5" width="14" height="14" rx="2"/>
+    </g>
+    <rect x="-11" y="-5" width="22" height="44" rx="2" fill="#12291B"/>
+  </g>
+
+  <g transform="translate(505,265)" opacity="0.95">
+    <rect x="-26" y="-18" width="52" height="36" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <path d="M-10 4 a10 10 0 0 1 20 0" fill="none" stroke="#4CAF6B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="0" cy="4" r="2.5" fill="#2E7045"/>
+  </g>
+</svg>

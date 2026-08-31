@@ -1,5 +1,6 @@
 const express = require("express");
 const { Resend } = require("resend");
+const { buildContactEmailHtml } = require("../lib/contactEmailTemplate");
 
 const router = express.Router();
 
@@ -47,7 +48,8 @@ router.post("/", async (req, res) => {
         `এলাকা: ${area}`,
         `আগ্রহী প্যাকেজ: ${pkg || "উল্লেখ নেই"}`,
         `মন্তব্য: ${message || "নেই"}`
-      ].join("\n")
+      ].join("\n"),
+      html: buildContactEmailHtml({ name, phone, area, pkg, message })
     });
 
     if (error) {

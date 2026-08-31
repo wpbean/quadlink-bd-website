@@ -10,14 +10,14 @@ const appConfig = {
   company: {
     name: "Quadlink BD",
     domain: "quadlinkbd.com",
-    phone: "+880 1XXX-XXXXXX",
-    phoneRaw: "+8801000000000",
+    phone: "+880 1811-106635",
+    phoneRaw: "+8801811106635",
     email: "info@quadlinkbd.com",
-    address: "সাভার ও ঢাকা জোন, বাংলাদেশ"
+    address: "মাদ্রাসা রোড, ইসলামপুর, ধামরাই, ঢাকা"
   },
 
   statistics: [
-    { value: "৫,০০০+", label: "সক্রিয় সন্তুষ্ট গ্রাহক" },
+    { value: "১,০০০+", label: "সক্রিয় সন্তুষ্ট গ্রাহক" },
     { value: "৯৯.৯%", label: "নেটওয়ার্ক আপটাইম" },
     { value: "২৪/৭", label: "টেকনিক্যাল সাপোর্ট" },
     { value: "১০+", label: "কভারেজ সাব-এলাকা" }
@@ -45,7 +45,7 @@ const appConfig = {
     {
       id: "pkg-basic",
       name: "Basic",
-      speed: "20 Mbps",
+      speed: "25 Mbps",
       price: "৳৫০০",
       period: "/ মাস",
       popular: false,
@@ -60,7 +60,7 @@ const appConfig = {
       id: "pkg-smart",
       name: "Smart",
       speed: "30 Mbps",
-      price: "৳৭০০",
+      price: "৳৬৫০",
       period: "/ মাস",
       popular: true,
       features: [
@@ -74,7 +74,7 @@ const appConfig = {
       id: "pkg-premium",
       name: "Premium",
       speed: "50 Mbps",
-      price: "৳৯০০",
+      price: "৳৯৯০",
       period: "/ মাস",
       popular: false,
       features: [
@@ -107,7 +107,7 @@ const appConfig = {
       desc: "সরাসরি অপটিক্যাল ফাইবার নেটওয়ার্কের মাধ্যমে সর্বোচ্চ গতির নিশ্চয়তা।"
     },
     {
-      icon: "📡",
+      icon: "🛡️",
       title: "স্থিতিশীল সংযোগ",
       desc: "৯৯.৯% আপটাইমের সাথে ঝড়-বৃষ্টিতেও স্থিতিশীল নেটওয়ার্ক কানেক্টিভিটি।"
     },
@@ -133,21 +133,26 @@ const appConfig = {
     }
   ],
 
+  customPackageOption: {
+    value: "Corporate / Custom",
+    label: "কর্পোরেট / কাস্টম প্যাকেজ"
+  },
+
   coverage: [
     {
       city: "ধামরাই জোন",
       status: "সক্রিয় কভারেজ",
-      subareas: ["ইসলামপুর", "পঞ্চাশ", "হাসপাতাল রোড", "থানা রোড", "ধামরাই বাজার", "পাঠানতলা", "কুমড়াইল", "কলেজ রোড", "উপজেলা"]
+      subareas: ["ইসলামপুর", "পঞ্চাশ", "সুইডিশ","হাসপাতাল রোড", "থানা রোড", "ধামরাই বাজার", "উপজেলা", "পাঠানতলা", "কুমড়াইল", "কলেজ রোড"]
     },
     {
-      city: "ঢাকা পশ্চিম জোন",
-      status: "সক্রিয় কভারেজ",
-      subareas: ["মিরপুর", "মোহাম্মদপুর", "কল্যাণপুর", "শ্যামলী", "গাবতলী"]
-    },
-    {
-      city: "ঢাকা উত্তর জোন",
+      city: "নবীনগর জোন",
       status: "সম্প্রসারণাধীন",
-      subareas: ["উত্তরা", "এয়ারপোর্ট রোড", "আব্দুল্লাহপুর", "টঙ্গী সংলগ্ন"]
+      subareas: ["নিরিবিলি", "জালালাবাদ", "ডেন্ডাবর", "পল্লীবিদ্যুৎ", "বাইপাইল", "কুরগাঁও", "গকুলনগর", "ইসলামনগর", "পানধোয়া", "জাহাঙ্গীরনগর বিশ্ববিদ্যালয়"]
+    },
+    {
+      city: "সাভার জোন",
+      status: "সম্প্রসারণাধীন",
+      subareas: ["রেডিও কলোনি", "জাহাঙ্গীরনগর সোসাইটি", "সি আর পি", "সাভার বাস স্ট্যান্ড", "বাজার রোড", "থানা রোড", "গেন্ডা", "ব্যাংক টাউন", "পুলিশ টাউন", "উলাইল", "হেমায়েতপুর"]
     }
   ]
 };
@@ -231,6 +236,19 @@ function renderPackages() {
   `).join("");
 }
 
+function renderPackageOptions() {
+  const select = document.getElementById("selectedPackage");
+  if (!select) return;
+
+  const packageOptions = appConfig.packages.map(pkg => `
+    <option value="${pkg.name} (${pkg.speed})" ${pkg.popular ? "selected" : ""}>${pkg.name} — ${pkg.speed} (${pkg.price}${pkg.period})</option>
+  `).join("");
+
+  const customOption = `<option value="${appConfig.customPackageOption.value}">${appConfig.customPackageOption.label}</option>`;
+
+  select.innerHTML = packageOptions + customOption;
+}
+
 function renderBenefits() {
   const container = document.getElementById("benefitsGrid");
   if (!container) return;
@@ -254,7 +272,7 @@ function renderCoverage() {
     <div class="coverage-card reveal-item">
       <div class="coverage-header">
         <span class="coverage-city">${zone.city}</span>
-        <span class="coverage-status-badge">${zone.status}</span>
+        <span class="coverage-status-badge${zone.status === "সম্প্রসারণাধীন" ? " coverage-status-badge--warning" : ""}">${zone.status}</span>
       </div>
       <div class="subarea-list">
         ${zone.subareas.map(area => `<span class="subarea-tag">${area}</span>`).join("")}
@@ -416,9 +434,19 @@ function setupUIInteractions() {
     });
   }
 
+  // Dynamic Copyright Year
+  const currentYearEl = document.getElementById("currentYear");
+  if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+  }
+
   // Back to Top Button
   const backToTopBtn = document.getElementById("backToTop");
   if (backToTopBtn) {
+    window.addEventListener("scroll", () => {
+      backToTopBtn.classList.toggle("visible", window.scrollY > 400);
+    }, { passive: true });
+
     backToTopBtn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -453,6 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderStatistics();
   renderServices();
   renderPackages();
+  renderPackageOptions();
   renderBenefits();
   renderCoverage();
   setupUIInteractions();
